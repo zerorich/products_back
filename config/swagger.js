@@ -12,6 +12,11 @@ const options = {
     servers: [
       {
         url: "http://localhost:5000/api",
+        description: "Локальный сервер",
+      },
+      {
+        url: "https://productsback-production.up.railway.app/api",
+        description: "Продакшен сервер",
       },
     ],
   },
