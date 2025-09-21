@@ -119,6 +119,10 @@ router.get("/", async (req, res) => {
  *                 type: string
  *               viloyat:
  *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Дата находки (ISO 8601)
  *               coordinates:
  *                 type: object
  *                 properties:
@@ -141,7 +145,7 @@ router.get("/", async (req, res) => {
  */
 router.post("/", async (req, res) => {
   try {
-    const { title, description, img, location, country, viloyat, coordinates, contactInfo } = req.body;
+    const { title, description, img, location, country, viloyat, coordinates, contactInfo, date } = req.body;
 
     if (!title || !description || !img || !location || !country || !viloyat || !coordinates) {
       return res.status(400).json({ 
@@ -165,7 +169,8 @@ router.post("/", async (req, res) => {
       country,
       viloyat,
       coordinates,
-      contactInfo: contactInfo || {}
+      contactInfo: contactInfo || {},
+      date: date ? new Date(date) : new Date()
     });
     
     await topilgan.save();
@@ -241,6 +246,10 @@ router.get("/:id", async (req, res) => {
  *                 type: string
  *               viloyat:
  *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Дата находки (ISO 8601)
  *               coordinates:
  *                 type: object
  *                 properties:

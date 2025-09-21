@@ -48,6 +48,10 @@ const yoqotilganSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now 
   },
+  date: { 
+    type: Date, 
+    default: Date.now 
+  },
   category: {
     type: String,
     enum: ['electronics', 'clothing', 'documents', 'jewelry', 'other'],

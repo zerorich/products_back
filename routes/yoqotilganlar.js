@@ -131,6 +131,10 @@ router.get("/", async (req, res) => {
  *                 type: string
  *               viloyat:
  *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Дата потери (ISO 8601)
  *               coordinates:
  *                 type: object
  *                 properties:
@@ -165,7 +169,8 @@ router.post("/", async (req, res) => {
       viloyat,
       coordinates, 
       contactInfo,
-      category = 'other'
+      category = 'other',
+      date
     } = req.body;
 
     if (!title || !description || !lastKnownLocation || !country || !viloyat || !coordinates) {
@@ -198,7 +203,8 @@ router.post("/", async (req, res) => {
       viloyat,
       coordinates,
       contactInfo: contactInfo || {},
-      category
+      category,
+      date: date ? new Date(date) : new Date()
     });
     
     await yoqotilgan.save();
@@ -277,6 +283,10 @@ router.get("/:id", async (req, res) => {
  *                 type: string
  *               viloyat:
  *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Дата потери (ISO 8601)
  *               coordinates:
  *                 type: object
  *                 properties:
