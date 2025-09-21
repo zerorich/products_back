@@ -115,6 +115,10 @@ router.get("/", async (req, res) => {
  *                 type: string
  *               location:
  *                 type: string
+ *               country:
+ *                 type: string
+ *               viloyat:
+ *                 type: string
  *               coordinates:
  *                 type: object
  *                 properties:
@@ -232,6 +236,10 @@ router.get("/:id", async (req, res) => {
  *               img:
  *                 type: string
  *               location:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *               viloyat:
  *                 type: string
  *               coordinates:
  *                 type: object

@@ -127,6 +127,10 @@ router.get("/", async (req, res) => {
  *                 maxItems: 4
  *               lastKnownLocation:
  *                 type: string
+ *               country:
+ *                 type: string
+ *               viloyat:
+ *                 type: string
  *               coordinates:
  *                 type: object
  *                 properties:
@@ -268,6 +272,10 @@ router.get("/:id", async (req, res) => {
  *                   type: string
  *                 maxItems: 4
  *               lastKnownLocation:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *               viloyat:
  *                 type: string
  *               coordinates:
  *                 type: object
