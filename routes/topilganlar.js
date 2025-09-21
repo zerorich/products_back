@@ -32,17 +32,35 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: Номер страницы
+ *       - in: query
+ *         name: country
+ *         schema:
+ *           type: string
+ *         description: Фильтр по стране
+ *       - in: query
+ *         name: viloyat
+ *         schema:
+ *           type: string
+ *         description: Фильтр по области
  *     responses:
  *       200:
  *         description: Список найденных вещей
  */
 router.get("/", async (req, res) => {
   try {
-    const { isClaimed, limit = 10, page = 1 } = req.query;
+    const { isClaimed, country, viloyat, limit = 10, page = 1 } = req.query;
     const filter = {};
     
     if (isClaimed !== undefined) {
       filter.isClaimed = isClaimed === 'true';
+    }
+    
+    if (country) {
+      filter.country = new RegExp(country, 'i');
+    }
+    
+    if (viloyat) {
+      filter.viloyat = new RegExp(viloyat, 'i');
     }
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -85,6 +103,8 @@ router.get("/", async (req, res) => {
  *               - description
  *               - img
  *               - location
+ *               - country
+ *               - viloyat
  *               - coordinates
  *             properties:
  *               title:
@@ -117,9 +137,9 @@ router.get("/", async (req, res) => {
  */
 router.post("/", async (req, res) => {
   try {
-    const { title, description, img, location, coordinates, contactInfo } = req.body;
+    const { title, description, img, location, country, viloyat, coordinates, contactInfo } = req.body;
 
-    if (!title || !description || !img || !location || !coordinates) {
+    if (!title || !description || !img || !location || !country || !viloyat || !coordinates) {
       return res.status(400).json({ 
         success: false, 
         message: "Все обязательные поля должны быть заполнены" 
@@ -138,6 +158,8 @@ router.post("/", async (req, res) => {
       description, 
       img, 
       location, 
+      country,
+      viloyat,
       coordinates,
       contactInfo: contactInfo || {}
     });

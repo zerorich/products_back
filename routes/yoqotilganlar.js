@@ -38,13 +38,23 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: Номер страницы
+ *       - in: query
+ *         name: country
+ *         schema:
+ *           type: string
+ *         description: Фильтр по стране
+ *       - in: query
+ *         name: viloyat
+ *         schema:
+ *           type: string
+ *         description: Фильтр по области
  *     responses:
  *       200:
  *         description: Список потерянных вещей
  */
 router.get("/", async (req, res) => {
   try {
-    const { isFound, category, limit = 10, page = 1 } = req.query;
+    const { isFound, category, country, viloyat, limit = 10, page = 1 } = req.query;
     const filter = {};
     
     if (isFound !== undefined) {
@@ -53,6 +63,14 @@ router.get("/", async (req, res) => {
     
     if (category) {
       filter.category = category;
+    }
+    
+    if (country) {
+      filter.country = new RegExp(country, 'i');
+    }
+    
+    if (viloyat) {
+      filter.viloyat = new RegExp(viloyat, 'i');
     }
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -94,6 +112,8 @@ router.get("/", async (req, res) => {
  *               - title
  *               - description
  *               - lastKnownLocation
+ *               - country
+ *               - viloyat
  *               - coordinates
  *             properties:
  *               title:
@@ -137,12 +157,14 @@ router.post("/", async (req, res) => {
       description, 
       images = [], 
       lastKnownLocation, 
+      country,
+      viloyat,
       coordinates, 
       contactInfo,
       category = 'other'
     } = req.body;
 
-    if (!title || !description || !lastKnownLocation || !coordinates) {
+    if (!title || !description || !lastKnownLocation || !country || !viloyat || !coordinates) {
       return res.status(400).json({ 
         success: false, 
         message: "Все обязательные поля должны быть заполнены" 
@@ -168,6 +190,8 @@ router.post("/", async (req, res) => {
       description, 
       images, 
       lastKnownLocation, 
+      country,
+      viloyat,
       coordinates,
       contactInfo: contactInfo || {},
       category
